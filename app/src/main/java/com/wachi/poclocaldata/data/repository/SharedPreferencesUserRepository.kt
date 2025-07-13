@@ -15,7 +15,7 @@ class SharedPreferencesUserRepository(private val context: Context) : UserReposi
         context.getSharedPreferences("user_prefs", Context.MODE_PRIVATE)
     }
     
-    private val encryptedPrefs: SharedPreferences by lazy {
+    val encryptedPrefs: SharedPreferences by lazy {
         val masterKey = MasterKey.Builder(context)
             .setKeyScheme(MasterKey.KeyScheme.AES256_GCM)
             .build()

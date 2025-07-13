@@ -4,16 +4,22 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.wachi.poclocaldata.data.model.User
+import com.wachi.poclocaldata.data.repository.DataStoreUserRepository
+import com.wachi.poclocaldata.data.repository.SharedPreferencesUserRepository
 import com.wachi.poclocaldata.data.repository.UserRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
-class HomeViewModel(private val repository: UserRepository) : ViewModel() {
+class HomeViewModel(
+    private val sharedPreferencesUserRepository: SharedPreferencesUserRepository,
+    private val dataStoreUserRepository: DataStoreUserRepository,
+) : ViewModel() {
 
     private val _user = MutableStateFlow(User())
     val user: StateFlow<User> = _user
+
 
     init {
         loadUserData()
@@ -21,7 +27,7 @@ class HomeViewModel(private val repository: UserRepository) : ViewModel() {
 
     private fun loadUserData() {
         viewModelScope.launch {
-            repository.getUserData().collectLatest { userData ->
+            dataStoreUserRepository.getUserData().collectLatest { userData ->
                 _user.value = userData
             }
         }
@@ -29,16 +35,25 @@ class HomeViewModel(private val repository: UserRepository) : ViewModel() {
 
     fun saveUserData(user: User) {
         viewModelScope.launch {
-            repository.saveUserData(user)
+            sharedPreferencesUserRepository.saveUserData(user)
             loadUserData()
         }
     }
 
-    class Factory(private val repository: UserRepository) : ViewModelProvider.Factory {
+    fun saveUserDataToDataStore(user: User) {
+        viewModelScope.launch {
+            dataStoreUserRepository.saveUserData(user)
+        }
+    }
+
+    class Factory(
+        private val sharedPreferencesUserRepository: SharedPreferencesUserRepository,
+        private val dataStoreUserRepository: DataStoreUserRepository,
+    ) : ViewModelProvider.Factory {
         @Suppress("UNCHECKED_CAST")
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
             if (modelClass.isAssignableFrom(HomeViewModel::class.java)) {
-                return HomeViewModel(repository) as T
+                return HomeViewModel(sharedPreferencesUserRepository, dataStoreUserRepository) as T
             }
             throw IllegalArgumentException("Unknown ViewModel class")
         }

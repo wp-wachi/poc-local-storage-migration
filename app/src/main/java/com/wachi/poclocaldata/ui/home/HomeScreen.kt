@@ -79,6 +79,23 @@ fun HomeScreen(
             Text("Save User Information")
         }
 
+        Button(
+            onClick = {
+                viewModel.saveUserDataToDataStore(
+                    User(
+                        firstName = firstName,
+                        lastName = lastName,
+                        phoneNumber = phoneNumber
+                    )
+                )
+            },
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(vertical = 16.dp)
+        ) {
+            Text("Save User Information To DataStore")
+        }
+
         // Display the saved user data
         Card(
             modifier = Modifier
