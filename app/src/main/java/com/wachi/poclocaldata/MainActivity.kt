@@ -9,6 +9,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.wachi.poclocaldata.data.repository.PreferenceDataStoreUserRepository
 import com.wachi.poclocaldata.data.repository.ProtoDataStoreUserRepository
 import com.wachi.poclocaldata.data.repository.SharedPreferencesUserRepository
 import com.wachi.poclocaldata.ui.home.HomeScreen
@@ -21,7 +22,7 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
 
         val repository = SharedPreferencesUserRepository(applicationContext)
-        val dataStoreUserRepository = ProtoDataStoreUserRepository(applicationContext, repository.encryptedPrefs)
+        val dataStoreUserRepository = PreferenceDataStoreUserRepository(applicationContext, repository.encryptedPrefs)
         val viewModelFactory = HomeViewModel.Factory(repository, dataStoreUserRepository)
 
         setContent {

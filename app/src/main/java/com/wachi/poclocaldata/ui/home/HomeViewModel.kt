@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.wachi.poclocaldata.data.model.UserPreferences
+import com.wachi.poclocaldata.data.repository.PreferenceDataStoreUserRepository
 import com.wachi.poclocaldata.data.repository.ProtoDataStoreUserRepository
 import com.wachi.poclocaldata.data.repository.SharedPreferencesUserRepository
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -13,7 +14,7 @@ import kotlinx.coroutines.launch
 
 class HomeViewModel(
     private val sharedPreferencesUserRepository: SharedPreferencesUserRepository,
-    private val dataStoreUserRepository: ProtoDataStoreUserRepository,
+    private val dataStoreUserRepository: PreferenceDataStoreUserRepository,
 ) : ViewModel() {
 
     private val _user = MutableStateFlow(UserPreferences())
@@ -47,7 +48,7 @@ class HomeViewModel(
 
     class Factory(
         private val sharedPreferencesUserRepository: SharedPreferencesUserRepository,
-        private val dataStoreUserRepository: ProtoDataStoreUserRepository,
+        private val dataStoreUserRepository: PreferenceDataStoreUserRepository,
     ) : ViewModelProvider.Factory {
         @Suppress("UNCHECKED_CAST")
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
