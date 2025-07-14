@@ -11,7 +11,8 @@ android {
 
     defaultConfig {
         applicationId = "com.wachi.poclocaldata"
-        minSdk = 24
+//        minSdk = 24 isn't working with Byte64.getEncoder().encodeToString()
+        minSdk = 26
         targetSdk = 36
         versionCode = 1
         versionName = "1.0"

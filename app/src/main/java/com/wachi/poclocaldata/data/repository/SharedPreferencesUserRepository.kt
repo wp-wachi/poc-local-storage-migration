@@ -4,10 +4,10 @@ import android.content.Context
 import android.content.SharedPreferences
 import androidx.security.crypto.EncryptedSharedPreferences
 import androidx.security.crypto.MasterKey
-import com.wachi.poclocaldata.data.model.User
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import androidx.core.content.edit
+import com.wachi.poclocaldata.data.model.UserPreferences
 
 class SharedPreferencesUserRepository(private val context: Context) : UserRepository {
     
@@ -32,7 +32,7 @@ class SharedPreferencesUserRepository(private val context: Context) : UserReposi
     // Use encrypted prefs for demonstration
     private val prefs get() = encryptedPrefs
     
-    override suspend fun saveUserData(user: User) {
+    override suspend fun saveUserData(user: UserPreferences) {
         prefs.edit {
             putString("first_name", user.firstName)
                 .putString("last_name", user.lastName)
@@ -40,8 +40,8 @@ class SharedPreferencesUserRepository(private val context: Context) : UserReposi
         }
     }
     
-    override fun getUserData(): Flow<User> = flow {
-        val user = User(
+    override fun getUserData(): Flow<UserPreferences> = flow {
+        val user = UserPreferences(
             firstName = prefs.getString("first_name", "") ?: "",
             lastName = prefs.getString("last_name", "") ?: "",
             phoneNumber = prefs.getString("phone_number", "") ?: ""

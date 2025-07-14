@@ -8,7 +8,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
-import com.wachi.poclocaldata.data.model.User
+import com.wachi.poclocaldata.data.model.UserPreferences
 
 @Composable
 fun HomeScreen(
@@ -65,7 +65,7 @@ fun HomeScreen(
         Button(
             onClick = {
                 viewModel.saveUserData(
-                    User(
+                    UserPreferences(
                         firstName = firstName,
                         lastName = lastName,
                         phoneNumber = phoneNumber
@@ -82,7 +82,7 @@ fun HomeScreen(
         Button(
             onClick = {
                 viewModel.saveUserDataToDataStore(
-                    User(
+                    UserPreferences(
                         firstName = firstName,
                         lastName = lastName,
                         phoneNumber = phoneNumber
